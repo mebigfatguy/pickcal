@@ -28,10 +28,10 @@ public class DayButton extends JButton {
 	static private Dimension preferredSize = new Dimension(50, 30);
 
 	private final Color baseColor;
+	private final Insets margin = new Insets(2, 2, 2, 2);
 
 	public DayButton() {
 		setEnabled(false);
-		setMargin(new Insets(2, 2, 2, 2));
 		baseColor = getBackground();
 	}
 
@@ -51,5 +51,10 @@ public class DayButton extends JButton {
 		} else {
 			setBackground(baseColor);
 		}
+	}
+
+	@Override
+	public Insets getInsets() {
+		return margin;
 	}
 }
