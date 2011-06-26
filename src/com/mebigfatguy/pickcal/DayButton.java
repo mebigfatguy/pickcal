@@ -19,6 +19,7 @@ package com.mebigfatguy.pickcal;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Insets;
 
 import javax.swing.JButton;
 
@@ -30,6 +31,7 @@ public class DayButton extends JButton {
 
 	public DayButton() {
 		setEnabled(false);
+		setMargin(new Insets(2, 2, 2, 2));
 		baseColor = getBackground();
 	}
 

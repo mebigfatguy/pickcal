@@ -162,7 +162,8 @@ public class PickCalPanel extends JPanel {
 		daysPanel.setLayout(new GridLayout(rows + 1, 7));
 
 		for (PickCalBundle.Key m : DAYS) {
-			JLabel l = new JLabel(m.toString());
+			JLabel l = new JLabel(m.toString().substring(0, 1));
+			l.setToolTipText(m.toString());
 			l.setHorizontalAlignment(SwingConstants.CENTER);
 			daysPanel.add(l);
 		}
