@@ -36,6 +36,8 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class PickCalPanel extends JPanel {
 
@@ -99,6 +101,7 @@ public class PickCalPanel extends JPanel {
 			yearSpinner = new JSpinner(model);
 			JSpinner.NumberEditor editor = new JSpinner.NumberEditor(yearSpinner, "####");
 			yearSpinner.setEditor(editor);
+			yearSpinner.addChangeListener(new YearChangeListener());
 
 			p.add(yearSpinner);
 		}
@@ -202,6 +205,13 @@ public class PickCalPanel extends JPanel {
 				updateDaysPanel(getCalendarFromPanel());
 			}
 
+		}
+	}
+
+	class YearChangeListener implements ChangeListener {
+		@Override
+		public void stateChanged(ChangeEvent e) {
+			updateDaysPanel(getCalendarFromPanel());
 		}
 	}
 }
