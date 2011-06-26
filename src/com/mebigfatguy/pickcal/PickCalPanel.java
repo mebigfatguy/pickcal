@@ -75,6 +75,25 @@ public class PickCalPanel extends JPanel {
 		updateDaysPanel(cal);
 	}
 
+	public Calendar getCalendarFromPanel() {
+		Calendar cal = Calendar.getInstance();
+		cal.clear();
+
+		Integer year = (Integer) yearSpinner.getValue();
+		cal.set(Calendar.YEAR, year.intValue());
+
+		cal.set(Calendar.MONTH, Calendar.JANUARY + monthComboBox.getSelectedIndex());
+
+		int maxDay = cal.getMaximum(Calendar.DAY_OF_MONTH);
+		int day = (selectedDayButton == null) ? 1 : Integer.parseInt(selectedDayButton.getText());
+		if (day > maxDay) {
+			day = maxDay;
+		}
+
+		cal.set(Calendar.DAY_OF_MONTH, day);
+		return cal;
+	}
+
 	private Component createMonthYearPanel() {
 		JPanel p = new JPanel();
 		p.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -167,25 +186,6 @@ public class PickCalPanel extends JPanel {
 
 		invalidate();
 		revalidate();
-	}
-
-	private Calendar getCalendarFromPanel() {
-		Calendar cal = Calendar.getInstance();
-		cal.clear();
-
-		Integer year = (Integer) yearSpinner.getValue();
-		cal.set(Calendar.YEAR, year.intValue());
-
-		cal.set(Calendar.MONTH, Calendar.JANUARY + monthComboBox.getSelectedIndex());
-
-		int maxDay = cal.getMaximum(Calendar.DAY_OF_MONTH);
-		int day = (selectedDayButton == null) ? 1 : Integer.parseInt(selectedDayButton.getText());
-		if (day > maxDay) {
-			day = maxDay;
-		}
-
-		cal.set(Calendar.DAY_OF_MONTH, day);
-		return cal;
 	}
 
 	class DayButtonListener implements ActionListener {
