@@ -17,26 +17,16 @@
  */
 package com.mebigfatguy.pickcal.sample;
 
-import java.awt.Container;
+import javax.swing.JDialog;
 
-import javax.swing.JFrame;
+import com.mebigfatguy.pickcal.PickCalDialog;
 
-import com.mebigfatguy.pickcal.PickCalPanel;
-
-public class Sample extends JFrame {
-
-	public Sample() {
-		PickCalPanel p = new PickCalPanel();
-
-		Container cp = getContentPane();
-		cp.add(p);
-		pack();
-	}
+public class Sample {
 
 	public static void main(String[] args) {
-		Sample s = new Sample();
-		s.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		s.setLocationRelativeTo(null);
-		s.setVisible(true);
+		PickCalDialog p = new PickCalDialog();
+		p.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		p.setLocationRelativeTo(null);
+		p.setVisible(true);
 	}
 }

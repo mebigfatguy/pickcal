@@ -96,7 +96,7 @@ public class PickCalPanel extends JPanel {
 
 	private Component createMonthYearPanel() {
 		JPanel p = new JPanel();
-		p.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		p.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		p.add(Box.createHorizontalStrut(10));
 
 		{
@@ -135,7 +135,12 @@ public class PickCalPanel extends JPanel {
 	}
 
 	private Component createTimeControlPanel() {
-		return new JPanel();
+		JPanel timeCtrlPanel = new JPanel();
+		timeCtrlPanel.setLayout(new BoxLayout(timeCtrlPanel, BoxLayout.X_AXIS));
+		timeCtrlPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+		return timeCtrlPanel;
+
 	}
 
 	private void updateDaysPanel(Calendar cal) {
