@@ -19,6 +19,9 @@ package com.mebigfatguy.pickcal;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Date;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -29,15 +32,28 @@ import javax.swing.JPanel;
 
 public class PickCalDialog extends JDialog {
 
+	private static final long serialVersionUID = -5779259738602081996L;
+
 	private JButton okButton;
 	private JButton cancelButton;
+	private final PickCalPanel pickCalPanel;
+	private boolean isOK = false;
 
 	public PickCalDialog() {
 		setLayout(new BorderLayout(4, 4));
-		add(new PickCalPanel(), BorderLayout.CENTER);
+		pickCalPanel = new PickCalPanel();
+		add(pickCalPanel, BorderLayout.CENTER);
 		add(createControlPanel(), BorderLayout.SOUTH);
 		getRootPane().setDefaultButton(okButton);
 		pack();
+	}
+
+	public boolean isOK() {
+		return isOK;
+	}
+
+	public Date getDate() {
+		return pickCalPanel.getCalendarFromPanel().getTime();
 	}
 
 	private Component createControlPanel() {
@@ -57,6 +73,22 @@ public class PickCalDialog extends JDialog {
 		ctrlPanel.add(Box.createHorizontalStrut(10));
 		ctrlPanel.add(okButton);
 		ctrlPanel.add(Box.createHorizontalStrut(10));
+
+		cancelButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				isOK = false;
+				dispose();
+			}
+		});
+
+		okButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				isOK = true;
+				dispose();
+			}
+		});
 
 		return ctrlPanel;
 	}
