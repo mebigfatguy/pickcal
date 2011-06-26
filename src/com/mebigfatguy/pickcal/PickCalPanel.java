@@ -22,6 +22,8 @@ import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.Calendar;
 
 import javax.swing.BorderFactory;
@@ -84,6 +86,7 @@ public class PickCalPanel extends JPanel {
 				model.addElement(m);
 			}
 			monthComboBox = new JComboBox(model);
+			monthComboBox.addItemListener(new MonthItemListener());
 
 			p.add(monthComboBox);
 		}
@@ -158,6 +161,28 @@ public class PickCalPanel extends JPanel {
 				date++;
 			}
 		}
+
+		invalidate();
+		revalidate();
+	}
+
+	private Calendar getCalendarFromPanel() {
+		Calendar cal = Calendar.getInstance();
+		cal.clear();
+
+		Integer year = (Integer) yearSpinner.getValue();
+		cal.set(Calendar.YEAR, year.intValue());
+
+		cal.set(Calendar.MONTH, Calendar.JANUARY + monthComboBox.getSelectedIndex());
+
+		int maxDay = cal.getMaximum(Calendar.DAY_OF_MONTH);
+		int day = (selectedDayButton == null) ? 1 : Integer.parseInt(selectedDayButton.getText());
+		if (day > maxDay) {
+			day = maxDay;
+		}
+
+		cal.set(Calendar.DAY_OF_MONTH, day);
+		return cal;
 	}
 
 	class DayButtonListener implements ActionListener {
@@ -166,6 +191,17 @@ public class PickCalPanel extends JPanel {
 			selectedDayButton.hilite(false);
 			selectedDayButton = (DayButton) ae.getSource();
 			selectedDayButton.hilite(true);
+		}
+	}
+
+	class MonthItemListener implements ItemListener {
+
+		@Override
+		public void itemStateChanged(ItemEvent e) {
+			if (e.getStateChange() == ItemEvent.SELECTED) {
+				updateDaysPanel(getCalendarFromPanel());
+			}
+
 		}
 	}
 }
