@@ -21,6 +21,7 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.BorderFactory;
@@ -51,6 +52,13 @@ public class PickCalDialog extends JDialog {
 
 	public boolean isOK() {
 		return isOK;
+	}
+
+	public void setDate(Date date) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+
+		pickCalPanel.setTime(cal);
 	}
 
 	public Date getDate() {
