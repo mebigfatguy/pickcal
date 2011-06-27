@@ -59,12 +59,20 @@ public class PickCalPanel extends JPanel {
 	private JSpinner secondSpinner;
 	private JSpinner ampmSpinner;
 	private DayButton selectedDayButton;
+	private final boolean showTimePanel;
 
 	public PickCalPanel() {
+		this(true);
+	}
+
+	public PickCalPanel(boolean showTime) {
+		showTimePanel = showTime;
 		setLayout(new BorderLayout(4, 4));
 		add(createMonthYearPanel(), BorderLayout.NORTH);
 		add(createDaysPanel(), BorderLayout.CENTER);
-		add(createTimeControlPanel(), BorderLayout.SOUTH);
+		if (showTime) {
+			add(createTimeControlPanel(), BorderLayout.SOUTH);
+		}
 		setTime(Calendar.getInstance());
 	}
 
@@ -80,24 +88,27 @@ public class PickCalPanel extends JPanel {
 
 		updateDaysPanel(cal);
 
-		{
-			SpinnerNumberModel hourModel = (SpinnerNumberModel) hourSpinner.getModel();
-			hourModel.setValue(Integer.valueOf(cal.get(Calendar.HOUR)));
-		}
+		if (showTimePanel) {
+			{
+				SpinnerNumberModel hourModel = (SpinnerNumberModel) hourSpinner.getModel();
+				hourModel.setValue(Integer.valueOf(cal.get(Calendar.HOUR)));
+			}
 
-		{
-			SpinnerNumberModel minuteModel = (SpinnerNumberModel) minuteSpinner.getModel();
-			minuteModel.setValue(Integer.valueOf(cal.get(Calendar.MINUTE)));
-		}
+			{
+				SpinnerNumberModel minuteModel = (SpinnerNumberModel) minuteSpinner.getModel();
+				minuteModel.setValue(Integer.valueOf(cal.get(Calendar.MINUTE)));
+			}
 
-		{
-			SpinnerNumberModel secondModel = (SpinnerNumberModel) secondSpinner.getModel();
-			secondModel.setValue(Integer.valueOf(cal.get(Calendar.SECOND)));
-		}
+			{
+				SpinnerNumberModel secondModel = (SpinnerNumberModel) secondSpinner.getModel();
+				secondModel.setValue(Integer.valueOf(cal.get(Calendar.SECOND)));
+			}
 
-		{
-			SpinnerListModel ampmModel = (SpinnerListModel) ampmSpinner.getModel();
-			ampmModel.setValue((cal.get(Calendar.AM_PM) == Calendar.AM) ? PickCalBundle.Key.AM : PickCalBundle.Key.PM);
+			{
+				SpinnerListModel ampmModel = (SpinnerListModel) ampmSpinner.getModel();
+				ampmModel.setValue((cal.get(Calendar.AM_PM) == Calendar.AM) ? PickCalBundle.Key.AM
+						: PickCalBundle.Key.PM);
+			}
 		}
 	}
 
@@ -118,16 +129,18 @@ public class PickCalPanel extends JPanel {
 
 		cal.set(Calendar.DAY_OF_MONTH, day);
 
-		Integer hour = (Integer) hourSpinner.getValue();
-		PickCalBundle.Key key = (PickCalBundle.Key) ampmSpinner.getValue();
-		int offset = key == PickCalBundle.Key.AM ? 0 : 12;
-		cal.set(Calendar.HOUR, hour.intValue() + offset);
+		if (showTimePanel) {
+			Integer hour = (Integer) hourSpinner.getValue();
+			PickCalBundle.Key key = (PickCalBundle.Key) ampmSpinner.getValue();
+			int offset = key == PickCalBundle.Key.AM ? 0 : 12;
+			cal.set(Calendar.HOUR, hour.intValue() + offset);
 
-		Integer minute = (Integer) minuteSpinner.getValue();
-		cal.set(Calendar.MINUTE, minute.intValue());
+			Integer minute = (Integer) minuteSpinner.getValue();
+			cal.set(Calendar.MINUTE, minute.intValue());
 
-		Integer second = (Integer) secondSpinner.getValue();
-		cal.set(Calendar.SECOND, second.intValue());
+			Integer second = (Integer) secondSpinner.getValue();
+			cal.set(Calendar.SECOND, second.intValue());
+		}
 
 		return cal;
 	}
