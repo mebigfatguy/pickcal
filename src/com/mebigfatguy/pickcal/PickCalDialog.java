@@ -40,6 +40,7 @@ public class PickCalDialog extends JDialog {
 	private boolean isOK = false;
 
 	public PickCalDialog() {
+		setTitle(PickCalBundle.getString(PickCalBundle.Key.Title));
 		setLayout(new BorderLayout(4, 4));
 		pickCalPanel = new PickCalPanel();
 		add(pickCalPanel, BorderLayout.CENTER);
