@@ -117,6 +117,18 @@ public class PickCalPanel extends JPanel {
 		}
 
 		cal.set(Calendar.DAY_OF_MONTH, day);
+
+		Integer hour = (Integer) hourSpinner.getValue();
+		PickCalBundle.Key key = (PickCalBundle.Key) ampmSpinner.getValue();
+		int offset = key == PickCalBundle.Key.AM ? 0 : 12;
+		cal.set(Calendar.HOUR, hour.intValue() + offset);
+
+		Integer minute = (Integer) minuteSpinner.getValue();
+		cal.set(Calendar.MINUTE, minute.intValue());
+
+		Integer second = (Integer) secondSpinner.getValue();
+		cal.set(Calendar.SECOND, second.intValue());
+
 		return cal;
 	}
 
