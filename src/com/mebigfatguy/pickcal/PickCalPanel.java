@@ -79,6 +79,26 @@ public class PickCalPanel extends JPanel {
 		}
 
 		updateDaysPanel(cal);
+
+		{
+			SpinnerNumberModel hourModel = (SpinnerNumberModel) hourSpinner.getModel();
+			hourModel.setValue(Integer.valueOf(cal.get(Calendar.HOUR)));
+		}
+
+		{
+			SpinnerNumberModel minuteModel = (SpinnerNumberModel) minuteSpinner.getModel();
+			minuteModel.setValue(Integer.valueOf(cal.get(Calendar.MINUTE)));
+		}
+
+		{
+			SpinnerNumberModel secondModel = (SpinnerNumberModel) secondSpinner.getModel();
+			secondModel.setValue(Integer.valueOf(cal.get(Calendar.SECOND)));
+		}
+
+		{
+			SpinnerListModel ampmModel = (SpinnerListModel) ampmSpinner.getModel();
+			ampmModel.setValue((cal.get(Calendar.AM_PM) == Calendar.AM) ? PickCalBundle.Key.AM : PickCalBundle.Key.PM);
+		}
 	}
 
 	public Calendar getCalendarFromPanel() {
