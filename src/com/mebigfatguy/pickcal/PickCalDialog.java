@@ -59,7 +59,7 @@ public class PickCalDialog extends JDialog {
 	private Component createControlPanel() {
 		JPanel ctrlPanel = new JPanel();
 
-		ctrlPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		ctrlPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
 
 		ctrlPanel.setLayout(new BoxLayout(ctrlPanel, BoxLayout.X_AXIS));
 		ctrlPanel.add(Box.createHorizontalGlue());
