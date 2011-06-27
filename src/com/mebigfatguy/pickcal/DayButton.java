@@ -25,7 +25,7 @@ import javax.swing.JButton;
 
 public class DayButton extends JButton {
 
-	static private Dimension preferredSize = new Dimension(50, 30);
+	static private Dimension preferredSize = new Dimension(25, 20);
 
 	private final Color baseColor;
 	private final Insets margin = new Insets(2, 2, 2, 2);
