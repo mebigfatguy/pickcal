@@ -24,6 +24,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.Arrays;
 import java.util.Calendar;
 
 import javax.swing.BorderFactory;
@@ -34,6 +35,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
+import javax.swing.SpinnerListModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
@@ -52,6 +54,10 @@ public class PickCalPanel extends JPanel {
 	private JComboBox monthComboBox;
 	private JSpinner yearSpinner;
 	private JPanel daysPanel;
+	private JSpinner hourSpinner;
+	private JSpinner minuteSpinner;
+	private JSpinner secondSpinner;
+	private JSpinner ampmSpinner;
 	private DayButton selectedDayButton;
 
 	public PickCalPanel() {
@@ -138,6 +144,51 @@ public class PickCalPanel extends JPanel {
 		JPanel timeCtrlPanel = new JPanel();
 		timeCtrlPanel.setLayout(new BoxLayout(timeCtrlPanel, BoxLayout.X_AXIS));
 		timeCtrlPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+		timeCtrlPanel.add(Box.createHorizontalStrut(10));
+
+		{
+			SpinnerNumberModel hourModel = new SpinnerNumberModel();
+			hourModel.setMinimum(Integer.valueOf(0));
+			hourModel.setMaximum(Integer.valueOf(11));
+			hourSpinner = new JSpinner(hourModel);
+			JSpinner.NumberEditor hourEditor = new JSpinner.NumberEditor(hourSpinner, "#0");
+			hourSpinner.setEditor(hourEditor);
+			timeCtrlPanel.add(hourSpinner);
+		}
+
+		timeCtrlPanel.add(Box.createHorizontalStrut(5));
+
+		{
+			SpinnerNumberModel minuteModel = new SpinnerNumberModel();
+			minuteModel.setMinimum(Integer.valueOf(0));
+			minuteModel.setMaximum(Integer.valueOf(59));
+			minuteSpinner = new JSpinner(minuteModel);
+			JSpinner.NumberEditor minuteEditor = new JSpinner.NumberEditor(minuteSpinner, "00");
+			minuteSpinner.setEditor(minuteEditor);
+			timeCtrlPanel.add(minuteSpinner);
+		}
+
+		timeCtrlPanel.add(Box.createHorizontalStrut(5));
+
+		{
+			SpinnerNumberModel secondModel = new SpinnerNumberModel();
+			secondModel.setMinimum(Integer.valueOf(0));
+			secondModel.setMaximum(Integer.valueOf(59));
+			secondSpinner = new JSpinner(secondModel);
+			JSpinner.NumberEditor secondEditor = new JSpinner.NumberEditor(secondSpinner, "00");
+			secondSpinner.setEditor(secondEditor);
+			timeCtrlPanel.add(secondSpinner);
+		}
+
+		timeCtrlPanel.add(Box.createHorizontalStrut(5));
+
+		SpinnerListModel ampmModel = new SpinnerListModel();
+		ampmModel.setList(Arrays.asList(PickCalBundle.Key.AM, PickCalBundle.Key.PM));
+		ampmSpinner = new JSpinner(ampmModel);
+		timeCtrlPanel.add(ampmSpinner);
+
+		timeCtrlPanel.add(Box.createHorizontalGlue());
 
 		return timeCtrlPanel;
 

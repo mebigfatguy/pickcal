@@ -49,7 +49,9 @@ public class PickCalBundle {
 		Wednesday("pickcal.wed"),
 		Thursday("pickcal.thu"),
 		Friday("pickcal.fri"),
-		Saturday("pickcal.sat");
+		Saturday("pickcal.sat"),
+		AM("pickcal.am"),
+		PM("pickcal.pm");
 
 		private final String id;
 
