@@ -1,5 +1,6 @@
 
 classes
-jar
-zip
+htdocs
+*.jar
+*.zip
 
