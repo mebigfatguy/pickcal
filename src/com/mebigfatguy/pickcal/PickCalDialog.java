@@ -22,6 +22,8 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -37,9 +39,10 @@ public class PickCalDialog extends JDialog {
 	private JButton okButton;
 	private JButton cancelButton;
 	private final PickCalPanel pickCalPanel;
-	private boolean isOK = false;
+	private Set<DateSelectionListener> listeners;
 
 	public PickCalDialog() {
+	    listeners = new HashSet<>();
 		setTitle(PickCalBundle.getString(PickCalBundle.Key.Title));
 		setLayout(new BorderLayout(4, 4));
 		pickCalPanel = new PickCalPanel();
@@ -48,17 +51,17 @@ public class PickCalDialog extends JDialog {
 		getRootPane().setDefaultButton(okButton);
 		pack();
 	}
-
-	public boolean isOK() {
-		return isOK;
+	
+	public void addDateSelectionListener(DateSelectionListener dsl) {
+	    listeners.add(dsl);
+	}
+	
+	public void removeDateSelectionListener(DateSelectionListener dsl) {
+	    listeners.remove(dsl);
 	}
 
 	public void setDate(LocalDateTime date) {
 		pickCalPanel.setDate(date);
-	}
-
-	public LocalDateTime getDate() {
-		return pickCalPanel.getDate();
 	}
 
 	private Component createControlPanel() {
@@ -73,7 +76,7 @@ public class PickCalDialog extends JDialog {
 		okButton = new JButton(PickCalBundle.getString(PickCalBundle.Key.OK));
 
 		SwingUtils.sizeUniformly(okButton, cancelButton);
-
+		
 		ctrlPanel.add(cancelButton);
 		ctrlPanel.add(Box.createHorizontalStrut(10));
 		ctrlPanel.add(okButton);
@@ -82,7 +85,6 @@ public class PickCalDialog extends JDialog {
 		cancelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				isOK = false;
 				dispose();
 			}
 		});
@@ -90,7 +92,10 @@ public class PickCalDialog extends JDialog {
 		okButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				isOK = true;
+			    LocalDateTime date = pickCalPanel.getDate();
+			    for (DateSelectionListener dsl : listeners) {
+			        dsl.dateSelected(date);
+			    }
 				dispose();
 			}
 		});

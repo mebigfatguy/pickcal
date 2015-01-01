@@ -17,14 +17,29 @@
  */
 package com.mebigfatguy.pickcal.sample;
 
+import java.time.LocalDateTime;
+
+import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 
+import com.mebigfatguy.pickcal.DateSelectionListener;
 import com.mebigfatguy.pickcal.PickCalDialog;
 
 public class Sample {
 
 	public static void main(String[] args) {
-		PickCalDialog p = new PickCalDialog();
+		final PickCalDialog p = new PickCalDialog();
+		
+		DateSelectionListener dsl = new DateSelectionListener() {
+
+            @Override
+            public void dateSelected(LocalDateTime date) {
+                JOptionPane.showMessageDialog(null,  "Date selected: " + date);
+                p.dispose();
+                System.exit(0);
+            }
+		};
+		p.addDateSelectionListener(dsl);
 		p.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		p.setLocationRelativeTo(null);
 		p.setVisible(true);
