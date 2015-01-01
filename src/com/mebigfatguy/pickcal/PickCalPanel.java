@@ -43,7 +43,7 @@ import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class PickCalPanel extends JPanel {
+class PickCalPanel extends JPanel {
 
     private static final long serialVersionUID = -6235383197611711852L;
 

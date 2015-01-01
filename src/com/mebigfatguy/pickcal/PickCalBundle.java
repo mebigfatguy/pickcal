@@ -22,7 +22,7 @@ import java.util.ResourceBundle;
 /**
  * manages the resource bundle properties file for this application
  */
-public class PickCalBundle {
+class PickCalBundle {
 
 	/**
 	 * an enumeration of all the possible entries in the bundle

@@ -21,7 +21,7 @@ import java.awt.Dimension;
 
 import javax.swing.JComponent;
 
-public class SwingUtils {
+class SwingUtils {
 
 	private SwingUtils() {
 	}

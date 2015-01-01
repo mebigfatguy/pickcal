@@ -23,7 +23,7 @@ import java.awt.Insets;
 
 import javax.swing.JButton;
 
-public class DayButton extends JButton {
+class DayButton extends JButton {
 
     private static final long serialVersionUID = -4381328521456934645L;
 
