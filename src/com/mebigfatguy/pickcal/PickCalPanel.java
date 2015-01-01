@@ -80,7 +80,7 @@ class PickCalPanel extends JPanel {
 		setDate(LocalDateTime.now());
 	}
 
-	public void setDate(final LocalDateTime date) {
+	public final void setDate(final LocalDateTime date) {
 		{
 			DefaultComboBoxModel<PickCalBundle.Key> model = (DefaultComboBoxModel<PickCalBundle.Key>) monthComboBox.getModel();
 			model.setSelectedItem(MONTHS[date.get(ChronoField.MONTH_OF_YEAR) - 1]);
