@@ -40,8 +40,14 @@ public class PickCalDialog extends JDialog {
 	private JButton cancelButton;
 	private final PickCalPanel pickCalPanel;
 	private Set<DateSelectionListener> listeners;
+	private boolean autoClose;
 
-	public PickCalDialog(boolean showTime) {
+	public PickCalDialog() {
+	    this(true, true);
+	}
+	
+	public PickCalDialog(boolean modal, boolean showTime) {
+	    autoClose = modal;
 	    listeners = new HashSet<>();
 		setTitle(PickCalBundle.getString(PickCalBundle.Key.Title));
 		setLayout(new BorderLayout(4, 4));
@@ -77,7 +83,10 @@ public class PickCalDialog extends JDialog {
 
 		SwingUtils.sizeUniformly(okButton, cancelButton);
 		
-		ctrlPanel.add(cancelButton);
+		if (autoClose) {
+		    ctrlPanel.add(cancelButton);
+		}
+		
 		ctrlPanel.add(Box.createHorizontalStrut(10));
 		ctrlPanel.add(okButton);
 		ctrlPanel.add(Box.createHorizontalStrut(10));
@@ -96,7 +105,9 @@ public class PickCalDialog extends JDialog {
 			    for (DateSelectionListener dsl : listeners) {
 			        dsl.dateSelected(date);
 			    }
-				dispose();
+			    if (autoClose) {
+			        dispose();
+			    }
 			}
 		});
 
