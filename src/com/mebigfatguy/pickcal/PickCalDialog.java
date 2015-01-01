@@ -41,11 +41,11 @@ public class PickCalDialog extends JDialog {
 	private final PickCalPanel pickCalPanel;
 	private Set<DateSelectionListener> listeners;
 
-	public PickCalDialog() {
+	public PickCalDialog(boolean showTime) {
 	    listeners = new HashSet<>();
 		setTitle(PickCalBundle.getString(PickCalBundle.Key.Title));
 		setLayout(new BorderLayout(4, 4));
-		pickCalPanel = new PickCalPanel();
+		pickCalPanel = new PickCalPanel(showTime);
 		add(pickCalPanel, BorderLayout.CENTER);
 		add(createControlPanel(), BorderLayout.SOUTH);
 		getRootPane().setDefaultButton(okButton);

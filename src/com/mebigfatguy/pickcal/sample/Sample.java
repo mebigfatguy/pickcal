@@ -28,7 +28,7 @@ import com.mebigfatguy.pickcal.PickCalDialog;
 public class Sample {
 
 	public static void main(String[] args) {
-		final PickCalDialog p = new PickCalDialog();
+		final PickCalDialog p = new PickCalDialog((args.length == 0) || "y".equalsIgnoreCase(args[0]));
 		
 		DateSelectionListener dsl = new DateSelectionListener() {
 
