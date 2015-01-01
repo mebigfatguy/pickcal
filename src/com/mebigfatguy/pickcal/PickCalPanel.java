@@ -24,7 +24,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.temporal.ChronoField;
@@ -46,7 +45,9 @@ import javax.swing.event.ChangeListener;
 
 public class PickCalPanel extends JPanel {
 
-	private static final PickCalBundle.Key[] MONTHS = { PickCalBundle.Key.January, PickCalBundle.Key.February,
+    private static final long serialVersionUID = -6235383197611711852L;
+
+    private static final PickCalBundle.Key[] MONTHS = { PickCalBundle.Key.January, PickCalBundle.Key.February,
 			PickCalBundle.Key.March, PickCalBundle.Key.April, PickCalBundle.Key.May, PickCalBundle.Key.June,
 			PickCalBundle.Key.July, PickCalBundle.Key.August, PickCalBundle.Key.September, PickCalBundle.Key.October,
 			PickCalBundle.Key.November, PickCalBundle.Key.December };
@@ -54,7 +55,7 @@ public class PickCalPanel extends JPanel {
 			PickCalBundle.Key.Tuesday, PickCalBundle.Key.Wednesday, PickCalBundle.Key.Thursday,
 			PickCalBundle.Key.Friday, PickCalBundle.Key.Saturday };
 
-	private JComboBox monthComboBox;
+	private JComboBox<PickCalBundle.Key> monthComboBox;
 	private JSpinner yearSpinner;
 	private JPanel daysPanel;
 	private JSpinner hourSpinner;
@@ -81,7 +82,7 @@ public class PickCalPanel extends JPanel {
 
 	public void setDate(final LocalDateTime date) {
 		{
-			DefaultComboBoxModel model = (DefaultComboBoxModel) monthComboBox.getModel();
+			DefaultComboBoxModel<PickCalBundle.Key> model = (DefaultComboBoxModel<PickCalBundle.Key>) monthComboBox.getModel();
 			model.setSelectedItem(MONTHS[date.get(ChronoField.MONTH_OF_YEAR) - 1]);
 		}
 		{
@@ -153,11 +154,11 @@ public class PickCalPanel extends JPanel {
 		{
 			p.setLayout(new BoxLayout(p, BoxLayout.X_AXIS));
 
-			DefaultComboBoxModel model = new DefaultComboBoxModel();
+			DefaultComboBoxModel<PickCalBundle.Key> model = new DefaultComboBoxModel<>();
 			for (PickCalBundle.Key m : MONTHS) {
 				model.addElement(m);
 			}
-			monthComboBox = new JComboBox(model);
+			monthComboBox = new JComboBox<>(model);
 			monthComboBox.addItemListener(new MonthItemListener());
 
 			p.add(monthComboBox);

@@ -25,7 +25,9 @@ import javax.swing.JButton;
 
 public class DayButton extends JButton {
 
-	static private Dimension preferredSize = new Dimension(25, 20);
+    private static final long serialVersionUID = -4381328521456934645L;
+
+    static private Dimension PREFERRED_SIZE = new Dimension(25, 20);
 
 	private final Color baseColor;
 	private final Insets margin = new Insets(2, 2, 2, 2);
@@ -42,7 +44,7 @@ public class DayButton extends JButton {
 
 	@Override
 	public Dimension getPreferredSize() {
-		return preferredSize;
+		return PREFERRED_SIZE;
 	}
 
 	public void hilite(boolean hilite) {
