@@ -1,0 +1,4 @@
+<Project projectName="pickcal">
+  <Jar>./classes</Jar>
+  <SrcDir>./src</SrcDir>
+</Project>
