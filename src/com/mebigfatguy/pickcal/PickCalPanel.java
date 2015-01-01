@@ -245,7 +245,7 @@ class PickCalPanel extends JPanel {
 		int today = date.get(ChronoField.DAY_OF_MONTH);
 
 		LocalDateTime first = date.with(ChronoField.DAY_OF_MONTH, 1);
-		int startDay = first.get(ChronoField.DAY_OF_WEEK);
+		int startDay = first.get(ChronoField.DAY_OF_WEEK) % 7;
 		
 		int numDays = Month.of(date.get(ChronoField.MONTH_OF_YEAR)).maxLength();
 
