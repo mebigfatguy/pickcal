@@ -1,7 +1,7 @@
 /*
  * pickcal - a calendar picker panel
- * Copyright 2011 MeBigFatGuy.com
- * Copyright 2011 Dave Brosius
+ * Copyright 2011-2014 MeBigFatGuy.com
+ * Copyright 2011-2014 Dave Brosius
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
@@ -24,8 +24,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.temporal.ChronoField;
 import java.util.Arrays;
-import java.util.Calendar;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -73,76 +76,73 @@ public class PickCalPanel extends JPanel {
 		if (showTime) {
 			add(createTimeControlPanel(), BorderLayout.SOUTH);
 		}
-		setTime(Calendar.getInstance());
+		setDate(LocalDateTime.now());
 	}
 
-	public void setTime(final Calendar cal) {
+	public void setDate(final LocalDateTime date) {
 		{
 			DefaultComboBoxModel model = (DefaultComboBoxModel) monthComboBox.getModel();
-			model.setSelectedItem(MONTHS[cal.get(Calendar.MONTH)]);
+			model.setSelectedItem(MONTHS[date.get(ChronoField.MONTH_OF_YEAR) - 1]);
 		}
 		{
 			SpinnerNumberModel model = (SpinnerNumberModel) yearSpinner.getModel();
-			model.setValue(Integer.valueOf(cal.get(Calendar.YEAR)));
+			model.setValue(Integer.valueOf(date.get(ChronoField.YEAR)));
 		}
 
-		updateDaysPanel(cal);
+		updateDaysPanel(date);
 
 		if (showTimePanel) {
 			{
 				SpinnerNumberModel hourModel = (SpinnerNumberModel) hourSpinner.getModel();
-				hourModel.setValue(Integer.valueOf(cal.get(Calendar.HOUR)));
+				hourModel.setValue(Integer.valueOf(date.get(ChronoField.HOUR_OF_AMPM)));
 			}
 
 			{
 				SpinnerNumberModel minuteModel = (SpinnerNumberModel) minuteSpinner.getModel();
-				minuteModel.setValue(Integer.valueOf(cal.get(Calendar.MINUTE)));
+				minuteModel.setValue(Integer.valueOf(date.get(ChronoField.MINUTE_OF_HOUR)));
 			}
 
 			{
 				SpinnerNumberModel secondModel = (SpinnerNumberModel) secondSpinner.getModel();
-				secondModel.setValue(Integer.valueOf(cal.get(Calendar.SECOND)));
+				secondModel.setValue(Integer.valueOf(date.get(ChronoField.SECOND_OF_MINUTE)));
 			}
 
 			{
 				SpinnerListModel ampmModel = (SpinnerListModel) ampmSpinner.getModel();
-				ampmModel.setValue((cal.get(Calendar.AM_PM) == Calendar.AM) ? PickCalBundle.Key.AM
+				ampmModel.setValue((date.get(ChronoField.AMPM_OF_DAY) == 0) ? PickCalBundle.Key.AM
 						: PickCalBundle.Key.PM);
 			}
 		}
 	}
 
-	public Calendar getCalendarFromPanel() {
-		Calendar cal = Calendar.getInstance();
-		cal.clear();
-
+	public LocalDateTime getDate() {
+	    
 		Integer year = (Integer) yearSpinner.getValue();
-		cal.set(Calendar.YEAR, year.intValue());
 
-		cal.set(Calendar.MONTH, Calendar.JANUARY + monthComboBox.getSelectedIndex());
+		Month selectedMonth = Month.JANUARY.plus(monthComboBox.getSelectedIndex());
 
-		int maxDay = cal.getMaximum(Calendar.DAY_OF_MONTH);
+		int maxDay = selectedMonth.maxLength();
 		int day = (selectedDayButton == null) ? 1 : Integer.parseInt(selectedDayButton.getText());
 		if (day > maxDay) {
 			day = maxDay;
 		}
-
-		cal.set(Calendar.DAY_OF_MONTH, day);
+		
+		LocalDateTime date = LocalDateTime.of(year.intValue(), selectedMonth.getValue(), day, 0, 0);
 
 		if (showTimePanel) {
 			Integer hour = (Integer) hourSpinner.getValue();
 			PickCalBundle.Key key = (PickCalBundle.Key) ampmSpinner.getValue();
 			int offset = key == PickCalBundle.Key.AM ? 0 : 12;
-			cal.set(Calendar.HOUR, hour.intValue() + offset);
+			date = date.with(ChronoField.HOUR_OF_DAY, hour.intValue() + offset);
 
 			Integer minute = (Integer) minuteSpinner.getValue();
-			cal.set(Calendar.MINUTE, minute.intValue());
+			date = date.with(ChronoField.MINUTE_OF_HOUR, minute.intValue());
 
 			Integer second = (Integer) secondSpinner.getValue();
-			cal.set(Calendar.SECOND, second.intValue());
+			date = date.with(ChronoField.SECOND_OF_MINUTE, second.intValue());
 		}
 
-		return cal;
+		return date;
 	}
 
 	private Component createMonthYearPanel() {
@@ -239,14 +239,14 @@ public class PickCalPanel extends JPanel {
 
 	}
 
-	private void updateDaysPanel(Calendar cal) {
+	private void updateDaysPanel(LocalDateTime date) {
 		daysPanel.removeAll();
-		int today = cal.get(Calendar.DAY_OF_MONTH);
-		Calendar first = (Calendar) cal.clone();
+		int today = date.get(ChronoField.DAY_OF_MONTH);
 
-		first.set(Calendar.DATE, 1);
-		int startDay = first.get(Calendar.DAY_OF_WEEK) - 1;
-		int numDays = first.getActualMaximum(Calendar.DATE);
+		LocalDateTime first = date.with(ChronoField.DAY_OF_MONTH, 1);
+		int startDay = first.get(ChronoField.DAY_OF_WEEK) - 1;
+		
+		int numDays = Month.of(date.get(ChronoField.MONTH_OF_YEAR)).maxLength();
 
 		int rows = 1;
 		int startWeek = 7 - startDay + 1;
@@ -265,24 +265,24 @@ public class PickCalPanel extends JPanel {
 		}
 
 		DayButtonListener listener = new DayButtonListener();
-		int date = 1 - startDay;
+		int day = 1 - startDay;
 		for (int y = 0; y < rows; y++) {
 			for (int x = 0; x < 7; x++) {
 
-				if ((date > 0) && (date <= numDays)) {
-					String dateStr = String.valueOf(date);
+				if ((day > 0) && (day <= numDays)) {
+					String dateStr = String.valueOf(day);
 					DayButton button = new DayButton(dateStr);
 					button.addActionListener(listener);
-					if (today == date) {
+					if (today == day) {
 						selectedDayButton = button;
 					}
-					button.hilite(today == date);
+					button.hilite(today == day);
 					daysPanel.add(button);
 				} else {
 					daysPanel.add(new DayButton());
 				}
 
-				date++;
+				day++;
 			}
 		}
 
@@ -304,7 +304,7 @@ public class PickCalPanel extends JPanel {
 		@Override
 		public void itemStateChanged(ItemEvent e) {
 			if (e.getStateChange() == ItemEvent.SELECTED) {
-				updateDaysPanel(getCalendarFromPanel());
+				updateDaysPanel(getDate());
 			}
 
 		}
@@ -313,7 +313,7 @@ public class PickCalPanel extends JPanel {
 	class YearChangeListener implements ChangeListener {
 		@Override
 		public void stateChanged(ChangeEvent e) {
-			updateDaysPanel(getCalendarFromPanel());
+			updateDaysPanel(getDate());
 		}
 	}
 }

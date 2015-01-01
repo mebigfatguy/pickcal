@@ -1,7 +1,7 @@
 /*
  * pickcal - a calendar picker panel
- * Copyright 2011 MeBigFatGuy.com
- * Copyright 2011 Dave Brosius
+ * Copyright 2011-2014 MeBigFatGuy.com
+ * Copyright 2011-2014 Dave Brosius
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
@@ -17,7 +17,7 @@
  */
 package com.mebigfatguy.pickcal.sample;
 
-import javax.swing.JDialog;
+import javax.swing.WindowConstants;
 
 import com.mebigfatguy.pickcal.PickCalDialog;
 
@@ -25,7 +25,7 @@ public class Sample {
 
 	public static void main(String[] args) {
 		PickCalDialog p = new PickCalDialog();
-		p.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		p.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		p.setLocationRelativeTo(null);
 		p.setVisible(true);
 	}

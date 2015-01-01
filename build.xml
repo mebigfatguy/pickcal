@@ -1,8 +1,8 @@
 <!--
 /*
  * pickcal - a calendar picker panel
- * Copyright 2011 MeBigFatGuy.com
- * Copyright 2011 Dave Brosius
+ * Copyright 2011-2014 MeBigFatGuy.com
+ * Copyright 2011-2014 Dave Brosius
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
@@ -27,8 +27,8 @@
 	<property name="etc.dir" value="${basedir}/etc"/>
 	<property name="htdocs.dir" value="${basedir}/htdocs"/>
 	<property name="javadoc.dir" value="${htdocs.dir}/javadoc"/>
-	<property name="javac.source" value="1.6"/>
-	<property name="javac.target" value="1.6"/>
+	<property name="javac.source" value="1.8"/>
+	<property name="javac.target" value="1.8"/>
 	<property name="javac.deprecation" value="on"/>
 	<property name="javac.debug" value="on"/>
 	

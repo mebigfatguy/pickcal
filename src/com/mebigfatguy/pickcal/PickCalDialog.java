@@ -1,7 +1,7 @@
 /*
  * pickcal - a calendar picker panel
- * Copyright 2011 MeBigFatGuy.com
- * Copyright 2011 Dave Brosius
+ * Copyright 2011-2014 MeBigFatGuy.com
+ * Copyright 2011-2014 Dave Brosius
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
@@ -21,8 +21,8 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.Instant;
+import java.time.LocalDateTime;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -54,15 +54,12 @@ public class PickCalDialog extends JDialog {
 		return isOK;
 	}
 
-	public void setDate(Date date) {
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(date);
-
-		pickCalPanel.setTime(cal);
+	public void setDate(LocalDateTime date) {
+		pickCalPanel.setDate(date);
 	}
 
-	public Date getDate() {
-		return pickCalPanel.getCalendarFromPanel().getTime();
+	public LocalDateTime getDate() {
+		return pickCalPanel.getDate();
 	}
 
 	private Component createControlPanel() {
